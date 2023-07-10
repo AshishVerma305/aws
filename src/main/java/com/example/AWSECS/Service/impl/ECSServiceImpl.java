@@ -319,6 +319,7 @@ public class ECSServiceImpl implements ECSService {
                 System.out.println("Region: " + region.getName());
                 for (ResourceTagMapping resource : result.getResourceTagMappingList()) {
                     System.out.println("ResourceARN: " + resource.getResourceARN());
+
                     System.out.println("ResourceType: " + getResourceTypeFromARN(resource.getResourceARN()));
                     System.out.println("Tags: " + resource.getTags());
                     System.out.println();

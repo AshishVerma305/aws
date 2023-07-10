@@ -45,10 +45,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>co.poynt.postman.runner</groupId>
-			<artifactId>postman-runner</artifactId>
-			<version>3.0.0</version></dependency>
 	</dependencies>
 
 	<build>
