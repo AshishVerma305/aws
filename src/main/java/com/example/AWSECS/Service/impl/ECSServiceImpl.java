@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service("ECSService")
 public class ECSServiceImpl implements ECSService {
@@ -319,10 +320,18 @@ public class ECSServiceImpl implements ECSService {
                 System.out.println("Region: " + region.getName());
                 for (ResourceTagMapping resource : result.getResourceTagMappingList()) {
                     System.out.println("ResourceARN: " + resource.getResourceARN());
-
                     System.out.println("ResourceType: " + getResourceTypeFromARN(resource.getResourceARN()));
                     System.out.println("Tags: " + resource.getTags());
-                    System.out.println();
+                    if(getResourceTypeFromARN(resource.getResourceARN()).equalsIgnoreCase("ec2"))
+                    {
+                        AmazonEC2 amazonEC2Client= AmazonEC2ClientBuilder.standard().withRegion(region).build();
+                        DescribeInstancesRequest describeInstance= new DescribeInstancesRequest();
+                        List<String> idCollection=new ArrayList<>();
+                        idCollection.add(getResourceIdFromARN(resource.getResourceARN()));
+                        describeInstance.setInstanceIds(idCollection);
+                        DescribeInstancesResult describeInstancesResult=amazonEC2Client.describeInstances(describeInstance);
+                        System.out.println("describeInstancesResult------>"+describeInstancesResult);
+                    }
                 }
             } catch (Exception e) {
                 System.err.println("Failed to retrieve resources in region " + region.getName() + ": " + e.getMessage());
@@ -338,5 +347,12 @@ public class ECSServiceImpl implements ECSService {
         }
         return "";
     }
-
+    private static String getResourceIdFromARN(String arn) {
+        // Assuming the resource type is the 3rd component in the ARN
+        String[] arnComponents = arn.split(":");
+        if (arnComponents.length >= 3) {
+            return arnComponents[5].split("/")[1];
+        }
+        return "";
+    }
 }
