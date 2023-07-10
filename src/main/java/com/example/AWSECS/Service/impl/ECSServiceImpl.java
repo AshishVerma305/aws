@@ -322,7 +322,7 @@ public class ECSServiceImpl implements ECSService {
                     System.out.println("ResourceARN: " + resource.getResourceARN());
                     System.out.println("ResourceType: " + getResourceTypeFromARN(resource.getResourceARN()));
                     System.out.println("Tags: " + resource.getTags());
-                    if(getResourceTypeFromARN(resource.getResourceARN()).equalsIgnoreCase("ec2")&&getResourceFromARN(resource.getResourceARN()).equalsIgnoreCase("ec2"))
+                    if(getResourceTypeFromARN(resource.getResourceARN()).equalsIgnoreCase("ec2")&&getResourceFromARN(resource.getResourceARN()).equalsIgnoreCase("instance"))
                     {
                         AmazonEC2 amazonEC2Client= AmazonEC2ClientBuilder.standard().withRegion(region).build();
                         DescribeInstancesRequest describeInstance= new DescribeInstancesRequest();
