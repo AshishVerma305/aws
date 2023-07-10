@@ -322,7 +322,7 @@ public class ECSServiceImpl implements ECSService {
                     System.out.println("ResourceARN: " + resource.getResourceARN());
                     System.out.println("ResourceType: " + getResourceTypeFromARN(resource.getResourceARN()));
                     System.out.println("Tags: " + resource.getTags());
-                    if(getResourceTypeFromARN(resource.getResourceARN()).equalsIgnoreCase("ec2"))
+                    if(getResourceTypeFromARN(resource.getResourceARN()).equalsIgnoreCase("ec2")&&getResourceFromARN(resource.getResourceARN()).equalsIgnoreCase("ec2"))
                     {
                         AmazonEC2 amazonEC2Client= AmazonEC2ClientBuilder.standard().withRegion(region).build();
                         DescribeInstancesRequest describeInstance= new DescribeInstancesRequest();
@@ -352,6 +352,14 @@ public class ECSServiceImpl implements ECSService {
         String[] arnComponents = arn.split(":");
         if (arnComponents.length >= 3) {
             return arnComponents[5].split("/")[1];
+        }
+        return "";
+    }
+    private static String getResourceFromARN(String arn) {
+        // Assuming the resource type is the 3rd component in the ARN
+        String[] arnComponents = arn.split(":");
+        if (arnComponents.length >= 3) {
+            return arnComponents[5].split("/")[0];
         }
         return "";
     }
